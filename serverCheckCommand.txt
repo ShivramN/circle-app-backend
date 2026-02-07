@@ -1,0 +1,14 @@
+1) Use the du Command:
+du -h --max-depth=1
+
+2) Use the df Command:
+df -h
+
+3) Check Large Files with find:
+sudo find /var -type f -size +100M -exec du -h {} \; | sort -rh
+
+4) Check Log Files:
+sudo find /var/log -type f -exec du -h {} \; | sort -rh
+
+5) Check Docker Containers and Images:
+sudo docker system df
