@@ -377,11 +377,12 @@ class UserData {
       .then(result => {
         __logger.info('dbData: getAllUserDetalis(): then 1:', result)
         if (result && result[0].length > 0) {
-          result[0][0].category = result[0][0].categoryId.reduce((acc, categoryId) => {
+          const categoryIds = result[0][0].categoryId || []
+          result[0][0].category = Array.isArray(categoryIds) ? categoryIds.reduce((acc, categoryId) => {
             const category = result[1].find(category => category.categoryId === categoryId)
             if (category !== undefined) acc.push(category)
             return acc
-          }, [])
+          }, []) : []
           delete result[0][0].categoryId
           doesGetAllUserDetalis.resolve(result[0][0])
         } else {
