@@ -238,7 +238,7 @@ const userDetailsWithCategory = () => {
   return `select ud.username, ud.full_name as fullName, ud.photo_url as photoUrl, ud.category_id as categoryId, ud.plan_id as planId, ud.following_user_count as followingUserCount,ud.dob, ud.gender, ud.address,ud.occupation, ud.created_by as userId, ud.short_bio as shortBio, ud.phone_code as phoneCode, ud.phone_number as phoneNumber, ud.follower_user_count as followerUserCount, ud.description, ud.user_status as userStatus, ud.free_trial as freeTrial, ud.created_on as createdOn, ud.plan_valid_days as planValidDays, ud.event_count as eventCount, ud.voice_count as voiceCount, ud.news_count as newsCount,ud.coin_rewards as coinRewards, ud.total_coin_rewards as totalCoinRewards, u.email as emailId, ud.is_celebrity as isCelebrity, ase.value as appleIAPStatus
   from user_details ud 
   join users u on ud.created_by = u.user_id and u.is_active = 1
-  join admin_setting ase on ase.setting_id="6fe3e522-5ee6-4f06-92d9-5aa79b19f123" 
+  join admin_setting ase on ase.setting_id='6fe3e522-5ee6-4f06-92d9-5aa79b19f123' 
   where ud.created_by = ? and ud.is_active = true;
   SELECT category_id as categoryId, category_name as categoryName, category_description as categoryDescription, category_image as categoryImage 
   FROM category
