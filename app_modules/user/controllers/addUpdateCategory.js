@@ -8,7 +8,7 @@ const CategoryService = require('../../admin/services/dbData')
 const addUpdateCategory = (req, res) => {
   __logger.info('Inside addUpdateCategory')
   const userId = req.user && req.user.userId ? req.user.userId : '0'
-  const oldCategoryId = req.userConfig && req.userConfig.categoryId.length > 0 ? req.userConfig.categoryId : ['']
+  const oldCategoryId = req.userConfig && req.userConfig.categoryId && req.userConfig.categoryId.length > 0 ? req.userConfig.categoryId : ['']
   let newCategoryId
   let showUserList
   const validation = new Validation()
