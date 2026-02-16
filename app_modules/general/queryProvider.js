@@ -16,8 +16,8 @@ limit 2;
    join category c on c.category_id = n.category_id and c.is_active = true
   WHERE n.news_title LIKE ? or n.news_description LIKE ?
  limit 2;
- select v.voice_id as 'voiceId',v.voice_url as 'voiceUrl',v.voice_title as 'voiceTitle',v.voice_view as voiceView,v.category_id as categoryId,c.category_name as categoryName, ud.full_name as fullName,
- IF(tv.tagged_user_id IS NOT NULL, JSON_ARRAYAGG(JSON_OBJECT('username', ud2.username, 'userId', ud2.created_by, 'fullName', ud2.full_name)), JSON_ARRAY()) AS tagUser
+ select v.voice_id as 'voiceId',v.voice_url as 'voiceUrl',v.voice_title as 'voiceTitle',v.voice_view as voiceView,v.category_id as categoryId,ANY_VALUE(c.category_name) as categoryName, ANY_VALUE(ud.full_name) as fullName,
+ IF(COUNT(tv.tagged_user_id) > 0, JSON_ARRAYAGG(JSON_OBJECT('username', ud2.username, 'userId', ud2.created_by, 'fullName', ud2.full_name)), JSON_ARRAY()) AS tagUser
    from voices v 
    join user_details ud on v.created_by  = ud.created_by and ud.is_active = true 
    join category c on c.category_id = v.category_id and c.is_active = true
