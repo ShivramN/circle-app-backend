@@ -29,7 +29,7 @@ const insertEvent = () => {
 
 const checkUsersEventById = () => {
   return ` 
-  SELECT e.event_id as eventId, e.event_thumbnail as eventThumbnail, e.event_title as eventTitle,e.event_coin_point as eventCoinPoint,e.event_view as eventView, e.event_start_date as eventStartDate,e.event_end_date as eventEndDate, DATE_FORMAT(e.event_start_time, "%H:%i") as eventStartTime, DATE_FORMAT(e.event_end_time, "%H:%i") as eventEndTime, e.event_address as eventAddress, e.created_on as createdOn,c.category_name as categoryName, e.category_id as categoryId, e.event_seat as eventSeat, e.bought as bought,
+  SELECT e.event_id as eventId, e.event_thumbnail as eventThumbnail, e.event_title as eventTitle,e.event_coin_point as eventCoinPoint,e.event_view as eventView, e.event_start_date as eventStartDate,e.event_end_date as eventEndDate, DATE_FORMAT(e.event_start_time, '%H:%i') as eventStartTime, DATE_FORMAT(e.event_end_time, '%H:%i') as eventEndTime, e.event_address as eventAddress, e.created_on as createdOn,c.category_name as categoryName, e.category_id as categoryId, e.event_seat as eventSeat, e.bought as bought,
   if((eip.is_accepted = true) or (eip2.is_accepted = true), true, false) as isBought,
   JSON_OBJECT( 'userId', ud2.created_by,'username', ud2.username, 'fullName', ud2.full_name, 'photoUrl', ud2.photo_url, 'planName' , s.plan_name, 'isFollow',if(ufm2.user_follow_mapping_id is not null , true, false), 'isCelebrity', ud2.is_celebrity) as user,
   IF(se.event_id IS NOT NULL, true, false) AS isSaved,
@@ -56,7 +56,7 @@ const checkUsersEventById = () => {
   LEFT JOIN popularity_event pe ON pe.event_id = e.event_id
   WHERE (e.event_start_date >=  DATE_FORMAT(NOW(), '%Y-%m-%d')) and ((e.invite_people = ? AND eip.invited_user_id IS NOT NULL) OR (e.invite_people IN (?,?) AND ufm.created_by IS NOT NULL) OR (e.invite_people = ? AND ud.created_by IS NOT NULL))
   order BY peScore DESC limit ? offset ?;
-  SELECT e.event_id as eventId, e.event_thumbnail as eventThumbnail, e.event_title as eventTitle,e.event_coin_point as eventCoinPoint,e.event_view as eventView, e.event_start_date as eventStartDate,e.event_end_date as eventEndDate, DATE_FORMAT(e.event_start_time, "%H:%i") as eventStartTime, DATE_FORMAT(e.event_end_time, "%H:%i") as eventEndTime, e.event_address as eventAddress, e.created_on as createdOn,c.category_name as categoryName, e.category_id as categoryId,
+  SELECT e.event_id as eventId, e.event_thumbnail as eventThumbnail, e.event_title as eventTitle,e.event_coin_point as eventCoinPoint,e.event_view as eventView, e.event_start_date as eventStartDate,e.event_end_date as eventEndDate, DATE_FORMAT(e.event_start_time, '%H:%i') as eventStartTime, DATE_FORMAT(e.event_end_time, '%H:%i') as eventEndTime, e.event_address as eventAddress, e.created_on as createdOn,c.category_name as categoryName, e.category_id as categoryId,
   if((eip.is_accepted = true) or (eip2.is_accepted = true), true, false) as isBought,
   JSON_OBJECT( 'userId', ud2.created_by,'username', ud2.username, 'fullName', ud2.full_name, 'photoUrl', ud2.photo_url, 'planName' , s.plan_name, 'isFollow',if(ufm2.user_follow_mapping_id is not null, true, false), 'isCelebrity', ud2.is_celebrity) as user,
   IF(se.event_id IS NOT NULL, true, false) AS isSaved
@@ -84,7 +84,7 @@ const checkUsersEventById = () => {
 }
 
 const checkHalfEventById = () => {
-  return `SELECT e.event_id as eventId, e.event_thumbnail as eventThumbnail,e.event_coin_point as eventCoinPoint,e.event_view as eventView, e.event_title as eventTitle, e.event_start_date as eventStartDate,e.category_id as categoryId, e.event_seat as eventSeat, e.bought as bought,c.category_name as categoryName,e.event_end_date as eventEndDate, DATE_FORMAT(e.event_start_time, "%H:%i") as eventStartTime, DATE_FORMAT(e.event_end_time, "%H:%i") as eventEndTime, e.event_address as eventAddress, e.created_on as createdOn, 
+  return `SELECT e.event_id as eventId, e.event_thumbnail as eventThumbnail,e.event_coin_point as eventCoinPoint,e.event_view as eventView, e.event_title as eventTitle, e.event_start_date as eventStartDate,e.category_id as categoryId, e.event_seat as eventSeat, e.bought as bought,c.category_name as categoryName,e.event_end_date as eventEndDate, DATE_FORMAT(e.event_start_time, '%H:%i') as eventStartTime, DATE_FORMAT(e.event_end_time, '%H:%i') as eventEndTime, e.event_address as eventAddress, e.created_on as createdOn, 
   if((eip.is_accepted = true) or (eip2.is_accepted = true), true, false) as isBought,
   JSON_OBJECT( 'userId', ud2.created_by,'username', ud2.username, 'fullName', ud2.full_name, 'photoUrl', ud2.photo_url, 'planName' , s.plan_name, 'isFollow',if(ufm2.user_follow_mapping_id is not null , true, false), 'isCelebrity', ud2.is_celebrity) as user, if(se.saved_event_id is not null, true, false) as isSaved
   FROM event e
@@ -111,7 +111,7 @@ const checkHalfEventById = () => {
 
 const checkEventById = () => {
   return `
-  SELECT e.event_id as eventId, e.event_title as eventTitle, e.event_thumbnail as eventThumbnail,e.event_view as eventView,e.category_id as categoryId,e.event_address as eventAddress, e.event_seat as eventSeat, e.bought as bought, e.language_id as languageId,e.event_min_age as eventMinAge, event_max_age as eventMaxAge, age_criteria_enabled as isAgeCriteriaEnabled, e.event_seat as eventSeat, e.event_host_name as eventHostName, e.event_description as eventDescription, e.event_start_date as eventStartDate,e.event_end_date as eventEndDate, DATE_FORMAT(e.event_start_time, "%H:%i") as eventStartTime, DATE_FORMAT(e.event_end_time, "%H:%i") as eventEndTime, e.invite_people as invitePeople, e.event_coin_point as eventCoinPoint, e.event_more_url as eventMoreUrl, e.event_add_terms as eventAddTerms, e.event_special_note as eventSpecialNote,c.category_name as categoryName, e.created_on as createdOn,
+  SELECT e.event_id as eventId, e.event_title as eventTitle, e.event_thumbnail as eventThumbnail,e.event_view as eventView,e.category_id as categoryId,e.event_address as eventAddress, e.event_seat as eventSeat, e.bought as bought, e.language_id as languageId,e.event_min_age as eventMinAge, event_max_age as eventMaxAge, age_criteria_enabled as isAgeCriteriaEnabled, e.event_seat as eventSeat, e.event_host_name as eventHostName, e.event_description as eventDescription, e.event_start_date as eventStartDate,e.event_end_date as eventEndDate, DATE_FORMAT(e.event_start_time, '%H:%i') as eventStartTime, DATE_FORMAT(e.event_end_time, '%H:%i') as eventEndTime, e.invite_people as invitePeople, e.event_coin_point as eventCoinPoint, e.event_more_url as eventMoreUrl, e.event_add_terms as eventAddTerms, e.event_special_note as eventSpecialNote,c.category_name as categoryName, e.created_on as createdOn,
   JSON_OBJECT( 'userId', ud.created_by,'username', ud.username, 'fullName', ud.full_name, 'photoUrl', ud.photo_url, 'planName' , s.plan_name, 'isFollow', if(ufm.user_follow_mapping_id is not null, true, false), 'isCelebrity', ud.is_celebrity, 'followerCount', ud.follower_user_count) as user, if(se.saved_event_id is not null, true, false) as isSaved
   FROM event e
   join category c on c.category_id = e.category_id 
@@ -127,7 +127,7 @@ const checkEventById = () => {
 
 const checkSuggestEvent = () => {
   return `
-  SELECT e.event_id as eventId, e.event_thumbnail as eventThumbnail,e.event_coin_point as eventCoinPoint,e.event_view as eventView, e.event_title as eventTitle, e.event_start_date as eventStartDate,e.category_id as categoryId,c.category_name as categoryName, e.event_seat as eventSeat, e.bought as bought,e.event_end_date as eventEndDate, DATE_FORMAT(e.event_start_time, "%H:%i") as eventStartTime, DATE_FORMAT(e.event_end_time, "%H:%i") as eventEndTime, e.event_address as eventAddress, e.created_on as createdOn, 
+  SELECT e.event_id as eventId, e.event_thumbnail as eventThumbnail,e.event_coin_point as eventCoinPoint,e.event_view as eventView, e.event_title as eventTitle, e.event_start_date as eventStartDate,e.category_id as categoryId,c.category_name as categoryName, e.event_seat as eventSeat, e.bought as bought,e.event_end_date as eventEndDate, DATE_FORMAT(e.event_start_time, '%H:%i') as eventStartTime, DATE_FORMAT(e.event_end_time, '%H:%i') as eventEndTime, e.event_address as eventAddress, e.created_on as createdOn, 
   if((eip.is_accepted = true) or (eip2.is_accepted = true), true, false) as isBought,
   JSON_OBJECT( 'userId', ud2.created_by,'username', ud2.username, 'fullName', ud2.full_name, 'photoUrl', ud2.photo_url, 'planName' , s.plan_name, 'isFollow',if(ufm2.user_follow_mapping_id is not null, true, false), 'isCelebrity', ud2.is_celebrity) as user, if(se.saved_event_id is not null, true, false) as isSaved,
   (pe.score / (DATEDIFF(CURDATE(), e.created_on) + 1)) AS peScore
@@ -168,7 +168,7 @@ const deleteEventByID = () => {
 const checkFollowedEvent = (filterEvent) => {
   const value = filterEvent === __constants.EVENT_LIST_FILTER[0] ? 'e.event_start_date >= (now () -interval 1 day)' : 'e.event_start_date < (now ()-interval 1 day)'
   return `
-  SELECT e.event_id as eventId, e.event_thumbnail as eventThumbnail,e.event_coin_point as eventCoinPoint, e.event_title as eventTitle,e.event_view as eventView, e.event_start_date as eventStartDate,c.category_name as categoryName, e.category_id as categoryId, e.event_seat as eventSeat, e.bought as bought, e.event_end_date as eventEndDate, DATE_FORMAT(e.event_start_time, "%H:%i") as eventStartTime, DATE_FORMAT(e.event_end_time, "%H:%i") as eventEndTime, e.event_address as eventAddress, e.created_on as createdOn, 
+  SELECT e.event_id as eventId, e.event_thumbnail as eventThumbnail,e.event_coin_point as eventCoinPoint, e.event_title as eventTitle,e.event_view as eventView, e.event_start_date as eventStartDate,c.category_name as categoryName, e.category_id as categoryId, e.event_seat as eventSeat, e.bought as bought, e.event_end_date as eventEndDate, DATE_FORMAT(e.event_start_time, '%H:%i') as eventStartTime, DATE_FORMAT(e.event_end_time, '%H:%i') as eventEndTime, e.event_address as eventAddress, e.created_on as createdOn, 
   if((eip.is_accepted = true) or (eip2.is_accepted = true), true, false) as isBought,
   JSON_OBJECT( 'userId', ud2.created_by,'username', ud2.username, 'fullName', ud2.full_name, 'photoUrl', ud2.photo_url, 'planName' , s.plan_name, 'isFollow',if(ufm2.user_follow_mapping_id is not null, true, false), 'isCelebrity', ud2.is_celebrity) as user, if(se.saved_event_id is not null, true, false) as isSaved
   FROM event e
@@ -291,7 +291,7 @@ const checkEventBuy = () => {
 const createdEventList = (filterEvent) => {
   const value = filterEvent === __constants.EVENT_LIST_FILTER[0] ? 'e.event_start_date >= (now () -interval 1 day)' : 'e.event_start_date < (now ()-interval 1 day)'
   return `SELECT  e.event_id as eventId, e.event_title as eventTitle, e.event_coin_point as eventCoinPoint,e.event_view as eventView, e.event_thumbnail as eventThumbnail,c.category_name as categoryName, e.created_on as 
-    createdOn, e.event_seat as eventSeat, e.bought as bought, e.event_address as eventAddress, e.event_start_date as eventStartDate, e.event_end_date as eventEndDate, DATE_FORMAT(e.event_start_time, "%H:%i") as eventStartTime, DATE_FORMAT(e.event_end_time, "%H:%i") as eventEndTime, e.language_id as languageId,JSON_OBJECT( 'userId', ud.created_by,'username', ud.username, 'fullName', ud.full_name, 'photoUrl', ud.photo_url, 'isCelebrity', ud.is_celebrity, 'planName', s.plan_name) as user
+    createdOn, e.event_seat as eventSeat, e.bought as bought, e.event_address as eventAddress, e.event_start_date as eventStartDate, e.event_end_date as eventEndDate, DATE_FORMAT(e.event_start_time, '%H:%i') as eventStartTime, DATE_FORMAT(e.event_end_time, '%H:%i') as eventEndTime, e.language_id as languageId,JSON_OBJECT( 'userId', ud.created_by,'username', ud.username, 'fullName', ud.full_name, 'photoUrl', ud.photo_url, 'isCelebrity', ud.is_celebrity, 'planName', s.plan_name) as user
     FROM event e
     join category c on c.category_id = e.category_id 
     JOIN user_details ud ON ud.created_by = e.created_by AND ud.is_active = true
@@ -305,7 +305,7 @@ const createdEventList = (filterEvent) => {
 
 const savedEventList = (filterEvent) => {
   const value = filterEvent === __constants.EVENT_LIST_FILTER[0] ? 'e.event_start_date > now ()' : 'e.event_start_date <= now ()'
-  return `SELECT  e.event_id as eventId, e.event_title as eventTitle, e.event_coin_point as eventCoinPoint,e.event_view as eventView, e.event_thumbnail as eventThumbnail,c.category_name as categoryName, e.event_address as eventAddress, e.event_seat as eventSeat, e.bought as bought, e.event_start_date as eventStartDate, e.event_end_date as eventEndDate,se.created_on as savedOn, DATE_FORMAT(e.event_start_time, "%H:%i") as eventStartTime, DATE_FORMAT(e.event_end_time, "%H:%i") as eventEndTime, if((eip.is_accepted = true) or (eip2.is_accepted = true), true, false) as isBought,
+  return `SELECT  e.event_id as eventId, e.event_title as eventTitle, e.event_coin_point as eventCoinPoint,e.event_view as eventView, e.event_thumbnail as eventThumbnail,c.category_name as categoryName, e.event_address as eventAddress, e.event_seat as eventSeat, e.bought as bought, e.event_start_date as eventStartDate, e.event_end_date as eventEndDate,se.created_on as savedOn, DATE_FORMAT(e.event_start_time, '%H:%i') as eventStartTime, DATE_FORMAT(e.event_end_time, '%H:%i') as eventEndTime, if((eip.is_accepted = true) or (eip2.is_accepted = true), true, false) as isBought,
     JSON_OBJECT( 'userId', ud.created_by,'username', ud.username, 'fullName', ud.full_name, 'photoUrl', ud.photo_url, 'isCelebrity', ud.is_celebrity, 'planName', s.plan_name) as user
     FROM saved_event se
     join event e on e.event_id = se.event_id and e.is_active = 1
@@ -335,7 +335,7 @@ const savedEventList = (filterEvent) => {
 
 const receivedEventList = (filterEvent) => {
   const value = filterEvent === __constants.EVENT_LIST_FILTER[0] ? 'e.event_start_date >= (now () -interval 1 day)' : 'e.event_start_date < (now ()-interval 1 day)'
-  return `SELECT  e.event_id as eventId, e.event_title as eventTitle, e.event_coin_point as eventCoinPoint,e.event_view as eventView, e.event_thumbnail as eventThumbnail,c.category_name as categoryName, e.event_address as eventAddress, e.event_seat as eventSeat, e.bought as bought,se.created_on as sharedOn, e.event_start_date as eventStartDate, e.event_end_date as eventEndDate, DATE_FORMAT(e.event_start_time, "%H:%i") as eventStartTime, DATE_FORMAT(e.event_end_time, "%H:%i") as eventEndTime, if((eip.is_accepted = true) or (eip2.is_accepted = true), true, false) as isBought,
+  return `SELECT  e.event_id as eventId, e.event_title as eventTitle, e.event_coin_point as eventCoinPoint,e.event_view as eventView, e.event_thumbnail as eventThumbnail,c.category_name as categoryName, e.event_address as eventAddress, e.event_seat as eventSeat, e.bought as bought,se.created_on as sharedOn, e.event_start_date as eventStartDate, e.event_end_date as eventEndDate, DATE_FORMAT(e.event_start_time, '%H:%i') as eventStartTime, DATE_FORMAT(e.event_end_time, '%H:%i') as eventEndTime, if((eip.is_accepted = true) or (eip2.is_accepted = true), true, false) as isBought,
     JSON_OBJECT( 'userId', ud.created_by,'username', ud.username, 'fullName', ud.full_name, 'photoUrl', ud.photo_url, 'isCelebrity', ud.is_celebrity, 'planName', s.plan_name) as user
     FROM shared_event se
     join event e on e.event_id = se.event_id and e.is_active = 1
@@ -384,7 +384,7 @@ const getLanguageById = () => {
 const boughtEventList = (filterEvent) => {
   const value = filterEvent === __constants.EVENT_LIST_FILTER[0] ? 'e.event_start_date >= (now () -interval 1 day)' : 'e.event_start_date < (now ()-interval 1 day)'
   return `SELECT  e.event_id as eventId, e.event_title as eventTitle, e.event_coin_point as eventCoinPoint, e.event_thumbnail as eventThumbnail,c.category_name as categoryName,e.category_id as categoryId,e.event_view as eventView, eip.updated_on as 
-    boughtOn, e.event_seat as eventSeat, e.bought as bought, e.event_address as eventAddress, e.event_start_date as eventStartDate,e.event_end_date as eventEndDate, DATE_FORMAT(e.event_start_time, "%H:%i") as eventStartTime, DATE_FORMAT(e.event_end_time, "%H:%i") as eventEndTime, e.language_id as languageId, 1 as isBought,
+    boughtOn, e.event_seat as eventSeat, e.bought as bought, e.event_address as eventAddress, e.event_start_date as eventStartDate,e.event_end_date as eventEndDate, DATE_FORMAT(e.event_start_time, '%H:%i') as eventStartTime, DATE_FORMAT(e.event_end_time, '%H:%i') as eventEndTime, e.language_id as languageId, 1 as isBought,
     JSON_OBJECT( 'userId', ud.created_by,'username', ud.username, 'fullName', ud.full_name, 'photoUrl', ud.photo_url, 'isCelebrity', ud.is_celebrity, 'planName', s.plan_name) as user
     FROM event_invited_people eip
     join event e on e.event_id = eip.event_id
