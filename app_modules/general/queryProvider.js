@@ -17,12 +17,12 @@ limit 2;
   WHERE n.news_title LIKE ? or n.news_description LIKE ?
  limit 2;
  select v.voice_id as 'voiceId',v.voice_url as 'voiceUrl',v.voice_title as 'voiceTitle',v.voice_view as voiceView,v.category_id as categoryId,c.category_name as categoryName, ud.full_name as fullName,
- IF(tv.tag_user_id IS NOT NULL, JSON_ARRAYAGG(JSON_OBJECT('username', ud2.username, 'userId', ud2.created_by, 'fullName', ud2.full_name)), JSON_ARRAY()) AS tagUser
+ IF(tv.tagged_user_id IS NOT NULL, JSON_ARRAYAGG(JSON_OBJECT('username', ud2.username, 'userId', ud2.created_by, 'fullName', ud2.full_name)), JSON_ARRAY()) AS tagUser
    from voices v 
    join user_details ud on v.created_by  = ud.created_by and ud.is_active = true 
    join category c on c.category_id = v.category_id and c.is_active = true
    left join tag_voice tv on v.voice_id = tv.voice_id
-   left join user_details ud2 on tv.tag_user_id = ud2.created_by
+   left join user_details ud2 on tv.tagged_user_id = ud2.created_by
   WHERE v.voice_title LIKE ?
   GROUP BY v.voice_id
   limit 2;
