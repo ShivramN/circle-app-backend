@@ -15,15 +15,11 @@ const controller = (req, res) => {
       return userService.socialLogin(req.body.email, req.body.type, req.body.socialToken)
     })
     .then(data => {
-      if (data && data.isExist) {
-        __logger.info('SocialLogin :: controller:: Then 2', { data })
-        const payload = { userId: data.userId, signupType: req.body.socialToken }
-        const token = authMiddleware.setToken(payload, __constants.CUSTOM_CONSTANT.SESSION_TIME)
-        data.token = token
-        return __util.send(res, { type: __constants.RESPONSE_MESSAGES.SUCCESS, data: { data } })
-      } else {
-        __util.send(res, { type: __constants.RESPONSE_MESSAGES.SUCCESS, data: { data } })
-      }
+      __logger.info('SocialLogin :: controller:: Then 2', { data })
+      const payload = { userId: data.userId, signupType: req.body.type }
+      const token = authMiddleware.setToken(payload, __constants.CUSTOM_CONSTANT.SESSION_TIME)
+      data.token = token
+      return __util.send(res, { type: __constants.RESPONSE_MESSAGES.SUCCESS, data: { data } })
     })
     .catch(err => {
       __logger.error('error: SocialLogin function', err)
