@@ -81,11 +81,11 @@ const checkVoiceById = () => {
 
 const checkSuggestVoice = () => {
   return `
-  SELECT v.voice_id as voiceId,v.voice_view as voiceView, v.voice_title as voiceTitle, v.voice_url as voiceUrl, c.category_name as categoryName,v.category_id as categoryId, v.created_on as createdOn,v.voice_platform as voicePlatform,
-  IF(sv.voice_id IS NOT NULL, true, false) AS isSaved,
-  JSON_OBJECT( 'userId', ud.created_by,'username', ud.username, 'fullName', ud.full_name, 'photoUrl', ud.photo_url, 'planName' , s.plan_name, 'isFollow', if(ufm.user_follow_mapping_id IS NOT NULL , true, false), 'isCelebrity', ud.is_celebrity) as user,
-  IF(tv.tagged_user_id IS NOT NULL, JSON_ARRAYAGG(JSON_OBJECT('username', ud2.username, 'userId', ud2.created_by, 'fullName', ud2.full_name)), JSON_ARRAY()) AS tagUser,
-  (pv.score / (DATEDIFF(CURDATE(), v.created_on) + 1)) AS pvScore
+  SELECT v.voice_id as voiceId,v.voice_view as voiceView, v.voice_title as voiceTitle, v.voice_url as voiceUrl, ANY_VALUE(c.category_name) as categoryName,v.category_id as categoryId, v.created_on as createdOn,v.voice_platform as voicePlatform,
+  IF(ANY_VALUE(sv.voice_id) IS NOT NULL, true, false) AS isSaved,
+  JSON_OBJECT( 'userId', ANY_VALUE(ud.created_by),'username', ANY_VALUE(ud.username), 'fullName', ANY_VALUE(ud.full_name), 'photoUrl', ANY_VALUE(ud.photo_url), 'planName' , ANY_VALUE(s.plan_name), 'isFollow', if(ANY_VALUE(ufm.user_follow_mapping_id) IS NOT NULL , true, false), 'isCelebrity', ANY_VALUE(ud.is_celebrity)) as user,
+  IF(COUNT(tv.tagged_user_id) > 0, JSON_ARRAYAGG(JSON_OBJECT('username', ud2.username, 'userId', ud2.created_by, 'fullName', ud2.full_name)), JSON_ARRAY()) AS tagUser,
+  (ANY_VALUE(pv.score) / (DATEDIFF(CURDATE(), v.created_on) + 1)) AS pvScore
   FROM voices v
   join category c on c.category_id = v.category_id 
   join user_details ud on v.created_by = ud.created_by and ud.is_active = 1
@@ -112,10 +112,10 @@ const deleteVoiceByID = () => {
 
 const checkFollowedVoice = () => {
   return `
-  SELECT v.voice_id as voiceId,v.voice_view as voiceView, v.voice_title as voiceTitle, v.voice_url as voiceUrl,v.category_id as categoryId, c.category_name as categoryName, v.created_on as createdOn,v.voice_platform as voicePlatform,
-  IF(sv.voice_id IS NOT NULL, true, false) AS isSaved,
-  JSON_OBJECT( 'userId', ud.created_by,'username', ud.username, 'fullName', ud.full_name, 'photoUrl', ud.photo_url,'planName' , s.plan_name, 'isFollow', if(ufm.user_follow_mapping_id IS NOT NULL , true, false), 'isCelebrity', ud.is_celebrity) as user,
-  IF(tv.tagged_user_id IS NOT NULL, JSON_ARRAYAGG(JSON_OBJECT('username', ud2.username, 'userId', ud2.created_by, 'fullName', ud2.full_name)), JSON_ARRAY()) AS tagUser
+  SELECT v.voice_id as voiceId,v.voice_view as voiceView, v.voice_title as voiceTitle, v.voice_url as voiceUrl,v.category_id as categoryId, ANY_VALUE(c.category_name) as categoryName, v.created_on as createdOn,v.voice_platform as voicePlatform,
+  IF(ANY_VALUE(sv.voice_id) IS NOT NULL, true, false) AS isSaved,
+  JSON_OBJECT( 'userId', ANY_VALUE(ud.created_by),'username', ANY_VALUE(ud.username), 'fullName', ANY_VALUE(ud.full_name), 'photoUrl', ANY_VALUE(ud.photo_url),'planName' , ANY_VALUE(s.plan_name), 'isFollow', if(ANY_VALUE(ufm.user_follow_mapping_id) IS NOT NULL , true, false), 'isCelebrity', ANY_VALUE(ud.is_celebrity)) as user,
+  IF(COUNT(tv.tagged_user_id) > 0, JSON_ARRAYAGG(JSON_OBJECT('username', ud2.username, 'userId', ud2.created_by, 'fullName', ud2.full_name)), JSON_ARRAY()) AS tagUser
   FROM voices v
   join category c on c.category_id = v.category_id 
   join user_details ud on v.created_by = ud.created_by and ud.is_active = 1
@@ -177,7 +177,7 @@ const removeTagUser = () => {
 }
 
 const createdVoiceList = () => {
-  return `SELECT v.voice_id as voiceId, v.voice_title as voiceTitle,v.voice_view as voiceView,v.voice_platform AS voicePlatform, v.voice_url as voiceUrl,c.category_name as categoryName,v.category_id as categoryId, v.created_on as createdOn,IF(tv.tagged_user_id IS NOT NULL,JSON_ARRAYAGG(JSON_OBJECT('username', ud.username, 'userId', ud.created_by, 'fullName', ud.full_name)), JSON_ARRAY()) AS tagUser
+  return `SELECT v.voice_id as voiceId, v.voice_title as voiceTitle,v.voice_view as voiceView,v.voice_platform AS voicePlatform, v.voice_url as voiceUrl,c.category_name as categoryName,v.category_id as categoryId, v.created_on as createdOn,IF(COUNT(tv.tagged_user_id) > 0,JSON_ARRAYAGG(JSON_OBJECT('username', ud.username, 'userId', ud.created_by, 'fullName', ud.full_name)), JSON_ARRAY()) AS tagUser
   FROM voices v
   join category c on c.category_id = v.category_id 
   left join tag_voice tv on v.voice_id = tv.voice_id 
