@@ -677,10 +677,10 @@ class Events {
     const doesGetRedeemList = q.defer()
     const filterValue = {
       [__constants.SORT_TYPE[0]]: 'crh.created_on desc',
-      [__constants.SORT_TYPE[1]]: 'crh.coin_spend ASC',
-      [__constants.SORT_TYPE[2]]: 'crh.coin_spend desc'
+      [__constants.SORT_TYPE[1]]: 'crh.created_on ASC',
+      [__constants.SORT_TYPE[2]]: 'crh.created_on desc'
     }
-    __db.mysql.query(__constants.MYSQL_NAME, queryProvider.coinRedeemList(filterValue[sortType]), [userId, subType, __constants.MEDIA_TYPE[2], limit, offset])
+    __db.mysql.query(__constants.MYSQL_NAME, queryProvider.coinRedeemList(filterValue[sortType]), [userId, limit, offset])
       .then(result => {
         __logger.info('dbData: event ::  getRedeemList(): then 1:', result)
         doesGetRedeemList.resolve(result)
