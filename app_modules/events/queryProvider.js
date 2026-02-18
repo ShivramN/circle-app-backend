@@ -364,7 +364,7 @@ const receivedEventList = (filterEvent) => {
 }
 
 const getEventPointList = (orderFilter) => {
-  return `select e.event_title as mediaTitle, e.created_on as createdOn, e.event_view as mediaView, e.event_point as mediaPoint, e.event_id as mediaId
+  return `select e.event_title as mediaTitle, e.created_on as createdOn, e.event_view as mediaView, e.event_id as mediaId
   from event e
   where e.created_by = ? and e.is_active = true
   order by ${orderFilter} limit ? offset ?;`

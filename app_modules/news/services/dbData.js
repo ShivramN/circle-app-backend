@@ -387,8 +387,8 @@ class News {
     __logger.info('dbData: news :: getPointList(): ', userId)
     const filterValue = {
       [__constants.SORT_TYPE[0]]: 'n.created_on desc',
-      [__constants.SORT_TYPE[1]]: 'n.news_point ASC',
-      [__constants.SORT_TYPE[2]]: 'n.news_point desc'
+      [__constants.SORT_TYPE[1]]: 'n.created_on ASC',
+      [__constants.SORT_TYPE[2]]: 'n.created_on desc'
     }
     const doesGetPointList = q.defer()
     __db.mysql.query(__constants.MYSQL_NAME, queryProvider.getNewsPointList(filterValue[sortType]), [userId, limit, offset])

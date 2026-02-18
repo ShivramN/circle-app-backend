@@ -491,8 +491,8 @@ class Events {
     __logger.info('dbData: event :: getPointList(): ', userId)
     const filterValue = {
       [__constants.SORT_TYPE[0]]: 'e.created_on desc',
-      [__constants.SORT_TYPE[1]]: 'e.event_point ASC',
-      [__constants.SORT_TYPE[2]]: 'e.event_point desc'
+      [__constants.SORT_TYPE[1]]: 'e.created_on ASC',
+      [__constants.SORT_TYPE[2]]: 'e.created_on desc'
     }
     const doesgetPointList = q.defer()
     __db.mysql.query(__constants.MYSQL_NAME, queryProvider.getEventPointList(filterValue[sortType]), [userId, limit, offset])

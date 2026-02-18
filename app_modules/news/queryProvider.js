@@ -241,7 +241,7 @@ const receivedNewsList = () => {
 
 const getNewsPointList = (orderFilter) => {
   return `
-  select n.news_title as mediaTitle, n.created_on as createdOn, n.news_view as mediaView, n.news_point as mediaPoint, n.news_id as mediaId
+  select n.news_title as mediaTitle, n.created_on as createdOn, n.news_view as mediaView, n.news_id as mediaId
   from news n
   where n.created_by = ? and n.is_active = true
   order by ${orderFilter} limit ? offset ?;
