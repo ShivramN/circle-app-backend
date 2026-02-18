@@ -191,7 +191,7 @@ const createdVoiceList = () => {
 }
 
 const savedVoiceList = () => {
-  return `SELECT  v.voice_id as voiceId, v.voice_title as voiceTitle,v.voice_view as voiceView,v.voice_platform AS voicePlatform, v.voice_url as voiceUrl,v.category_id as categoryId,c.category_name as categoryName, v.created_on as createdOn,sv.created_on as savedOn, JSON_OBJECT( 'userId', ud.created_by,'username', ud.username, 'fullName', ud.full_name, 'photoUrl', ud.photo_url, 'isCelebrity', ud.is_celebrity,'planName', s.plan_name) as user,IF(tv.tagged_user_id IS NOT NULL,JSON_ARRAYAGG(JSON_OBJECT('username', ud2.username, 'userId', ud2.created_by, 'fullName', ud2.full_name)), JSON_ARRAY()) AS tagUser
+  return `SELECT  v.voice_id as voiceId, v.voice_title as voiceTitle,v.voice_view as voiceView,v.voice_platform AS voicePlatform, v.voice_url as voiceUrl,v.category_id as categoryId,ANY_VALUE(c.category_name) as categoryName, v.created_on as createdOn,ANY_VALUE(sv.created_on) as savedOn, JSON_OBJECT( 'userId', ANY_VALUE(ud.created_by),'username', ANY_VALUE(ud.username), 'fullName', ANY_VALUE(ud.full_name), 'photoUrl', ANY_VALUE(ud.photo_url), 'isCelebrity', ANY_VALUE(ud.is_celebrity),'planName', ANY_VALUE(s.plan_name)) as user,IF(COUNT(tv.tagged_user_id) > 0,JSON_ARRAYAGG(JSON_OBJECT('username', ud2.username, 'userId', ud2.created_by, 'fullName', ud2.full_name)), JSON_ARRAY()) AS tagUser
   FROM saved_voices sv
   join voices v on sv.voice_id = v.voice_id and v.is_active = 1
   join category c on c.category_id = v.category_id 
@@ -201,7 +201,7 @@ const savedVoiceList = () => {
   left join user_details ud2 on tv.tagged_user_id = ud2.created_by
   where sv.created_by = ? and v.is_active = 1
   GROUP BY v.voice_id
-  order by sv.created_on desc limit ? offset ?;
+  order by savedOn desc limit ? offset ?;
   SELECT count(sv.saved_voice_id) as totalSavedVoices
   FROM saved_voices sv
   where sv.created_by = ?;`
