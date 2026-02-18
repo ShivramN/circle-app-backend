@@ -213,7 +213,6 @@ const getFollowerList = (searchUser) => {
   join user_follow_mapping ufm on ufm.followed_id = ?
   left join user_follow_mapping ufm2 on ufm2.created_by = ? and ufm2.followed_id = ufm.created_by 
   where ud.created_by = ufm.created_by ${value}
-  group by ud.created_on
   order by full_name Desc limit ? offset ?; `
 }
 
@@ -230,7 +229,6 @@ const getFollowingList = (searchUser) => {
   join user_follow_mapping ufm on ufm.created_by = ?
   left join user_follow_mapping ufm2 on ufm2.created_by = ? and ufm2.followed_id = ufm.followed_id 
   where ud.created_by = ufm.followed_id ${value}
-  group by ud.created_on
   order by full_name Desc limit ? offset ?; `
 }
 
