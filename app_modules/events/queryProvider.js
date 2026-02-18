@@ -421,10 +421,9 @@ const updateRedemmed = () => {
 }
 
 const coinRedeemList = (filterValue) => {
-  return `select crh.media_type as mediaType, crh.media_id as mediaId, crh.created_on as createdOn, crh.created_by as userId, crh.coin_spend as coinSpend, crh.sub_type as subType, e.event_title as mediaTitle
+  return `select crh.redeem_id as redeemId, crh.coins_redeemed as coinsRedeemed, crh.redeem_type as redeemType, crh.created_on as createdOn, crh.created_by as userId
   from coin_redeemed_history crh
-  join event e on e.event_id = crh.media_id
-  where crh.created_by = ? and crh.sub_type =? and crh.media_type =?
+  where crh.created_by = ?
   order by ${filterValue} limit ? offset ?;`
 }
 

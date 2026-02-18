@@ -420,8 +420,8 @@ class Voices {
     __logger.info('dbData: voice :: getPointList(): ', userId)
     const filterValue = {
       [__constants.SORT_TYPE[0]]: 'v.created_on desc',
-      [__constants.SORT_TYPE[1]]: 'v.voice_point ASC',
-      [__constants.SORT_TYPE[2]]: 'v.voice_point desc'
+      [__constants.SORT_TYPE[1]]: 'v.created_on ASC',
+      [__constants.SORT_TYPE[2]]: 'v.created_on desc'
     }
     const doesgetPointList = q.defer()
     __db.mysql.query(__constants.MYSQL_NAME, queryProvider.getVoicePointList(filterValue[sortType]), [userId, limit, offset])

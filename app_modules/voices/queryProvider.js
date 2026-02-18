@@ -244,7 +244,7 @@ const tagVoiceList = () => {
 
 const getVoicePointList = (orderFilter) => {
   return `
-  select v.voice_title as mediaTitle, v.created_on as createdOn, v.voice_view as mediaView, v.voice_point as mediaPoint, v.voice_id as mediaId
+  select v.voice_title as mediaTitle, v.created_on as createdOn, v.voice_view as mediaView, v.voice_id as mediaId
   from voices v
   where v.created_by = ? and v.is_active = true
   order by ${orderFilter} limit ? offset ?;
