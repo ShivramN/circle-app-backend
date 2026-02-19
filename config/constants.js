@@ -22,7 +22,7 @@ const VERIFICATION_CHANNEL = {
 const PUBLIC_FOLDER_PATH = process.env.PWD + '/public'
 const SERVER_TIMEOUT = 2 * 60 * 1000
 const VALIDATOR = {
-  fullName: '^[A-Z][a-zA-Z]*([A-Z]| [A-Z][a-zA-Z]*)+$',
+  fullName: '^[A-Za-z][a-zA-Z ]*$',
   password: '^(?=.*[0-9])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{6,16}$',
   username: '^[A-Za-z][A-Za-z0-9@#$&_-]{3,50}$',
   number: '^[1-9][0-9]*$',

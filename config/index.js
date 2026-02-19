@@ -38,9 +38,8 @@ module.exports = {
       user: process.env.MYSQL_OPTIONS_USER,
       password: process.env.MYSQL_OPTIONS_PASSWORD,
       database: process.env.MYSQL_OPTIONS_DATABASE,
-      acquireTimeout: 0,
       port: +process.env.MYSQL_OPTIONS_PORT,
-      timezone: 'utc'
+      timezone: 'Z'
     }
   },
   authentication: {
