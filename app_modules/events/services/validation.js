@@ -128,36 +128,33 @@ class validate {
                 required: true,
                 minLength: 1,
                 maxLength: 250
+              },
+              type: {
+                type: 'string',
+                required: false,
+                enum: __constants.IMAGE_TYPE
               }
             }
-          },
-          eventMoreUrl: {
-            type: 'array',
+          }
+        },
+        eventMoreUrl: {
+          type: 'array',
+          required: false,
+          items: {
+            type: 'object',
             required: true,
-            minLength: 1,
-            items: {
-              type: 'object',
-              required: true,
-              minItems: 1,
-              maxItems: 10,
-              properties: {
-                url: {
-                  type: 'string',
-                  required: true,
-                  minLength: 1,
-                  maxLength: 250
-                },
-                mimeType: {
-                  type: 'string',
-                  required: true,
-                  minLength: 1,
-                  maxLength: 250
-                },
-                type: {
-                  type: 'string',
-                  required: true,
-                  enum: __constants.IMAGE_TYPE
-                }
+            properties: {
+              url: {
+                type: 'string',
+                required: true,
+                minLength: 1,
+                maxLength: 250
+              },
+              mimeType: {
+                type: 'string',
+                required: true,
+                minLength: 1,
+                maxLength: 250
               }
             }
           }
