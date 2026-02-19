@@ -24,27 +24,21 @@ class validate {
           type: 'string',
           required: true,
           minLength: 1,
-          maxLength: 10,
-          pattern: __constants.VALIDATOR.dateFormat
+          maxLength: 30
         },
         eventEndDate: {
           type: 'string',
           required: true,
           minLength: 1,
-          maxLength: 10,
-          pattern: __constants.VALIDATOR.dateFormat
+          maxLength: 30
         },
         eventStartTime: {
-          type: 'string',
-          required: true,
-          minLength: 1,
-          pattern: __constants.VALIDATOR.time
+          type: ['string', 'number'],
+          required: true
         },
         eventEndTime: {
-          type: 'string',
-          required: true,
-          minLength: 1,
-          pattern: __constants.VALIDATOR.time
+          type: ['string', 'number'],
+          required: true
         },
         eventAddress: {
           type: 'string',
@@ -188,7 +182,7 @@ class validate {
         },
         isAgeCriteriaEnabled: {
           type: 'boolean',
-          required: true
+          required: false
         }
       },
       additionalProperties: false
@@ -236,27 +230,21 @@ class validate {
           type: 'string',
           required: true,
           minLength: 1,
-          maxLength: 10,
-          pattern: __constants.VALIDATOR.dateFormat
+          maxLength: 30
         },
         eventEndDate: {
           type: 'string',
           required: true,
           minLength: 1,
-          maxLength: 10,
-          pattern: __constants.VALIDATOR.dateFormat
+          maxLength: 30
         },
         eventStartTime: {
-          type: 'string',
-          required: true,
-          minLength: 1,
-          pattern: __constants.VALIDATOR.time
+          type: ['string', 'number'],
+          required: true
         },
         eventEndTime: {
-          type: 'string',
-          required: true,
-          minLength: 1,
-          pattern: __constants.VALIDATOR.time
+          type: ['string', 'number'],
+          required: true
         },
         isAgeCriteriaEnabled: {
           type: 'boolean',
