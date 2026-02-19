@@ -20,6 +20,12 @@ class validate {
           minLength: 1,
           maxLength: 5000
         },
+        voiceDescription: {
+          type: 'string',
+          required: false,
+          minLength: 0,
+          maxLength: 10000
+        },
         voiceUrl: {
           type: 'array',
           required: false,

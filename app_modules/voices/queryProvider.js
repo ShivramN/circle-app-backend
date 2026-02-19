@@ -18,8 +18,8 @@ const updateVoice = () => {
 }
 
 const insertVoice = () => {
-  return `insert into voices (voice_id, voice_title,voice_url,voice_platform, category_id, created_on, created_by, is_active) values
-  (?,?,?,?,?,now(),?, true);
+  return `insert into voices (voice_id, voice_title, voice_description, voice_url, voice_platform, category_id, created_on, created_by, is_active) values
+  (?,?,?,?,?,?,now(),?, true);
   update category 
   set post_count = post_count + 1
   where category_id = ? and is_active = true;

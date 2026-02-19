@@ -116,7 +116,7 @@ class Voices {
     const doesInsertVoice = q.defer()
     const voiceId = this.uniqueId.uuid()
     const userService = new UserService()
-    __db.mysql.query(__constants.MYSQL_NAME, queryProvider.insertVoice(), [voiceId, voiceDetatils.voiceTitle, JSON.stringify(voiceDetatils.voiceUrl), JSON.stringify(voiceDetatils.voicePlaform), voiceDetatils.categoryId, userId, voiceDetatils.categoryId])
+    __db.mysql.query(__constants.MYSQL_NAME, queryProvider.insertVoice(), [voiceId, voiceDetatils.voiceTitle, voiceDetatils.voiceDescription || null, JSON.stringify(voiceDetatils.voiceUrl), JSON.stringify(voiceDetatils.voicePlaform), voiceDetatils.categoryId, userId, voiceDetatils.categoryId])
       .then(result => {
         __logger.info('dbData: insertVoice(): then 1:', result)
         if (result && result[0].affectedRows > 0 && result[1].affectedRows > 0) {
