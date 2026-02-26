@@ -16,7 +16,7 @@ const controllerSignUp = (req, res) => {
   emailValidator.validate(req.body.email)
     .then(data => {
       __logger.info('controllerSignUp :: signUp function', data)
-      if (data && data?.validators?.regex?.valid && data?.validators?.mx?.valid) {
+      if (data && data?.validators?.regex?.valid) {
         return userService.createUser(req.body.email, __constants.PROVIDER_TYPE.email)
       } else {
         return __util.send(res, { type: __constants.RESPONSE_MESSAGES.EMAIL_NOT_VALID, err: __constants.RESPONSE_MESSAGES.EMAIL_NOT_VALID.message })
