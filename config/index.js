@@ -75,12 +75,17 @@ module.exports = {
   },
   emailProvider: {
     sendEmail: process.env.EMAIL_PROVIDER_SEND_EMAIL === 'true',
+    provider: process.env.EMAIL_PROVIDER || 'smtp',
     service: process.env.EMAIL_PROVIDER_SERVICE,
     host: process.env.EMAIL_PROVIDER_HOST,
     port: +process.env.EMAIL_PROVIDER_PORT,
     auth: {
       user: process.env.EMAIL_PROVIDER_AUTH_USER,
       password: process.env.EMAIL_PROVIDER_AUTH_PASSWORD
+    },
+    mailjet: {
+      apiKey: process.env.MAILJET_API_KEY,
+      apiSecret: process.env.MAILJET_API_SECRET
     },
     tls: process.env.EMAIL_PROVIDER_TLS === 'true',
     debug: process.env.EMAIL_PROVIDER_DEBUG === 'true',
