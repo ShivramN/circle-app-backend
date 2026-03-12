@@ -2,11 +2,13 @@ const __util = require('../../../lib/util')
 const __logger = require('../../../lib/logger')
 const __constants = require('../../../config/constants')
 const UserService = require('../services/dbData')
+const VerificationService = require('../services/verification')
 const emailValidator = require('deep-email-validator')
 
 const controllerSignUp = (req, res) => {
   __logger.info('Inside Sign up')
   const userService = new UserService()
+  const verificationService = new VerificationService()
   let userId
   if (!req.body.email || req.body.email === '0') {
     return __util.send(res, { type: __constants.RESPONSE_MESSAGES.INVALID_REQUEST, data: {}, err: ['please provide email ID of type string'] })
@@ -22,10 +24,17 @@ const controllerSignUp = (req, res) => {
     })
     .then(data => {
       userId = data.userId
-      __logger.info('controllerSignUp :: signUp function :: User created (auto-verified)', { userId })
-      // TODO: Re-enable email verification when SMTP is unblocked
-      // Skip email verification - auto-verify user for testing
-      return __util.send(res, { type: __constants.RESPONSE_MESSAGES.EMAIL_VC, data: { userId, isVerified: 1, isUserExist: false } })
+      __logger.info('controllerSignUp :: signUp function :: User created', { userId })
+      // Generate and send verification code via email
+      return userService.addVerificationCode(userId, __constants.VERIFICATION_CHANNEL.email.expiresIn, __constants.VERIFICATION_CHANNEL.email.codeLength)
+    })
+    .then(data => {
+      __logger.info('controllerSignUp :: Verification code generated', { code: data.code })
+      return verificationService.sendVerificationCodeByEmail(data.code, req.body.email)
+    })
+    .then(data => {
+      __logger.info('controllerSignUp :: Email sent successfully', { data })
+      return __util.send(res, { type: __constants.RESPONSE_MESSAGES.EMAIL_VC, data: { userId, isVerified: 0, isUserExist: false } })
     })
     .catch(err => {
       __logger.error('controllerSignUp :: signUp function :: error: ', err)
