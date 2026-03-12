@@ -71,6 +71,8 @@ class IndexWorker {
     vm.app.use(cors(
       { exposedHeaders: ['Content-disposition'] }
     ))
+    // Serve static files from public directory
+    vm.app.use(express.static(path.join(__dirname, '../public')))
     vm.app.use((req, res, next) => {
       bodyParser.json({
         limit: '50mb',
